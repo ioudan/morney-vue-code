@@ -2,9 +2,20 @@
   <Layout>
     <div class="tags">
       <ul class="tagList">
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
+        <li>衣12312</li>
+        <li>食312312312</li>
+        <li>住w12w12</li>
+        <li>食12w12w</li>
+        <li>住12w12w</li>
+        <li>食12wqwsqws</li>
+        <li>住asxasx</li>
+        <li>住asxasx</li>
+        <li>行asxasx</li>
+        <li>行sxasx</li>
+        <li>行asxa</li>
+        <li>行as</li>
+        <li>行asa</li>
+        <li>行sx</li>
         <li>行</li>
       </ul>
       <div class="tagAdd">
@@ -14,13 +25,13 @@
     <div>
       <label class="note">
         <span class="noteName">备注</span>
-        <input type="text">
+        <input type="text" placeholder="在这里添加备注">
       </label>
     </div>
     <div>
       <ul class="type">
-        <li class="typeSelected">支出</li>
-        <li>收入</li>
+        <li class="typeSelected"><span>支出</span></li>
+        <li><span>收入</span></li>
       </ul>
     </div>
     <div class="numberPad">
@@ -64,23 +75,17 @@ export default {
     display: flex;
     flex-direction: row;
     margin-bottom: 17px;
+    flex-wrap: wrap;
 
     > li {
       background: #D9D9D9;
       border-radius: 18px;
-
-      font-family: Arial, serif;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
       line-height: 22px;
-      /* identical to box height, or 157% */
       color: #484848;
-
       padding: 0 17px;
       margin-right: 24px;
+      margin-bottom: 12px;
     }
-
   }
 
   > .tagAdd {
@@ -88,16 +93,9 @@ export default {
 
     button {
       border: none;
-      //border-bottom: 1px solid #666666;
       background: #fff;
       padding: 0 4px;
-
-      font-family: Source Han Sans, serif;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
       line-height: 22px;
-      /* identical to box height, or 157% */
       position: relative;
 
       color: #999999;
@@ -105,7 +103,6 @@ export default {
       &::after {
         content: '';
         position: absolute;
-        //border: 1px solid #666666;
         background: #666666;
         bottom: 0;
         right: 0;
@@ -114,6 +111,50 @@ export default {
       }
     }
   }
-
 }
+.note{
+  font-size: 14px;
+  background: #f5f5f5;
+  padding-left: 16px;
+  display: flex;
+
+  .noteName{
+    line-height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input{
+  height: 74px;
+    color: #999999;
+    background: transparent;
+    border: none;
+    flex-grow: 1;
+    padding:0 16px;
+  }
+}
+.type{
+  display: flex;
+  background:#c4c4c4;
+  > li{
+    width: 50%;
+    font-size: 24px;
+    line-height: 22px;
+    padding: 21px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    &.typeSelected::after{
+      content: '';
+      position: absolute;
+      background: #333333;
+      width: 100%;
+      height: 4px;
+      left:0;
+      bottom: 0;
+    }
+  }
+}
+
 </style>
