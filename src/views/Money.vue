@@ -1,5 +1,4 @@
 <template>
-  <div>
     <Layout>
       <div class="tags">
         <ul class="tag">
@@ -46,7 +45,6 @@
       </div>
 
     </Layout>
-  </div>
 </template>
 
 <script lang="ts">
