@@ -3,19 +3,8 @@
     <div class="tags">
       <ul class="tagList">
         <li>衣12312</li>
-        <li>食312312312</li>
-        <li>住w12w12</li>
-        <li>食12w12w</li>
-        <li>住12w12w</li>
-        <li>食12wqwsqws</li>
-        <li>住asxasx</li>
         <li>住asxasx</li>
         <li>行asxasx</li>
-        <li>行sxasx</li>
-        <li>行asxa</li>
-        <li>行as</li>
-        <li>行asa</li>
-        <li>行sx</li>
         <li>行</li>
       </ul>
       <div class="tagAdd">
@@ -35,7 +24,7 @@
       </ul>
     </div>
     <div class="numberPad">
-      <div class="numberOutput">100</div>
+      <div class="numberOutput"><span>100</span></div>
       <div class="numberButtons">
         <button>1</button>
         <button>2</button>
@@ -48,8 +37,8 @@
         <button>7</button>
         <button>8</button>
         <button>9</button>
-        <button>OK</button>
-        <button>0</button>
+        <button class="ok">OK</button>
+        <button class="zero">0</button>
         <button>.</button>
       </div>
 
@@ -65,13 +54,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 .tags {
-  //border: 1px solid red;
   margin-left: 16px;
   font-size: 14px;
 
   > .tagList {
-    //border: 1px solid blue;
     display: flex;
     flex-direction: row;
     margin-bottom: 17px;
@@ -112,31 +101,35 @@ export default {
     }
   }
 }
-.note{
+
+.note {
   font-size: 14px;
   background: #f5f5f5;
   padding-left: 16px;
   display: flex;
 
-  .noteName{
+  .noteName {
     line-height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  input{
-  height: 74px;
+
+  input {
+    height: 74px;
     color: #999999;
     background: transparent;
     border: none;
     flex-grow: 1;
-    padding:0 16px;
+    padding: 0 16px;
   }
 }
-.type{
+
+.type {
   display: flex;
-  background:#c4c4c4;
-  > li{
+  background: #c4c4c4;
+
+  > li {
     width: 50%;
     font-size: 24px;
     line-height: 22px;
@@ -145,16 +138,78 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    &.typeSelected::after{
+
+    &.typeSelected::after {
       content: '';
       position: absolute;
       background: #333333;
       width: 100%;
       height: 4px;
-      left:0;
+      left: 0;
       bottom: 0;
     }
   }
 }
 
+.numberPad {
+  //border: 1px solid red;
+  > .numberOutput {
+    @extend %clearFix;
+    @extend %innerShadow;
+    text-align: right;
+    font-family: Consolas, serif;
+    font-size: 36px;
+    line-height: 22px;
+    padding: 25px 16px;
+  }
+
+  > .numberButtons {
+    @extend %clearFix;
+
+    > button {
+      background: transparent;
+      border: none;
+      width: 25%;
+      height: 64px;
+      font-size: 18px;
+      line-height: 22px;
+      float: left;
+
+      &.ok {
+        height: 64*2px;
+        float: right;
+      }
+
+      &.zero {
+        width: 25*2%;
+      }
+      $bg:#F2F2F2;
+      &:nth-child(1) {
+        background: $bg;
+      }
+
+      &:nth-child(2), &:nth-child(5) {
+        background: darken($bg, 4%);
+      }
+
+      &:nth-child(3), &:nth-child(6), &:nth-child(9) {
+        background: darken($bg, 4*2%);
+      }
+
+      &:nth-child(4), &:nth-child(7), &:nth-child(10) {
+        background: darken($bg, 4*3%);
+      }
+
+      &:nth-child(8), &:nth-child(11), &:nth-child(13) {
+        background: darken($bg, 4*4%);
+      }
+      &:nth-child(14) {
+        background: darken($bg, 4*5%);
+      }
+      &:nth-child(12),{
+        background: darken($bg, 4*6%);
+      }
+    }
+  }
+}
 </style>
