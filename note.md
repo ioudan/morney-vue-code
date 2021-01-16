@@ -31,3 +31,6 @@ $ yarn add svg-sprite-loader -D
 要转换成vue.config.js
 要把svg的配置文件翻译成vue cli的配置文件格式
 
+### lang写成了type
+<style type="scss" scoped>
+<style lang="scss" scoped>

@@ -1,10 +1,10 @@
 <template>
-  <Layout>
+  <Layout class-prefix="layout" >
     <div class="tags">
       <ul class="tagList">
-        <li>衣12312</li>
-        <li>住asxasx</li>
-        <li>行asxasx</li>
+        <li>衣</li>
+        <li>食</li>
+        <li>住</li>
         <li>行</li>
       </ul>
       <div class="tagAdd">
@@ -41,9 +41,7 @@
         <button class="zero">0</button>
         <button>.</button>
       </div>
-
     </div>
-
   </Layout>
 </template>
 
@@ -52,15 +50,28 @@ export default {
   name: 'Money',
 };
 </script>
-
+<style lang="scss">
+.layout-content {
+  border: 3px solid red;
+  display: flex;
+  flex-direction: column;
+}
+</style>
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 
 .tags {
   margin-left: 16px;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-grow: 1;
+  height: 10vh;
 
   > .tagList {
+  overflow: auto;
     display: flex;
     flex-direction: row;
     margin-bottom: 17px;
@@ -73,7 +84,7 @@ export default {
       color: #484848;
       padding: 0 17px;
       margin-right: 24px;
-      margin-bottom: 12px;
+      margin-top: 12px;
     }
   }
 
@@ -183,7 +194,9 @@ export default {
       &.zero {
         width: 25*2%;
       }
-      $bg:#F2F2F2;
+
+      $bg: #F2F2F2;
+
       &:nth-child(1) {
         background: $bg;
       }
@@ -203,10 +216,12 @@ export default {
       &:nth-child(8), &:nth-child(11), &:nth-child(13) {
         background: darken($bg, 4*4%);
       }
+
       &:nth-child(14) {
         background: darken($bg, 4*5%);
       }
-      &:nth-child(12),{
+
+      &:nth-child(12), {
         background: darken($bg, 4*6%);
       }
     }
