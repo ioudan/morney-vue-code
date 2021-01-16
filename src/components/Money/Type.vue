@@ -7,29 +7,48 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Type',
-  data: () => {
-    return {
-      types: '-'  // ’-‘ 支出 ’+‘ 收入
-    };
-  },
-  props:['xxx'],
-  mounted() {
-    console.log(this.xxx);
-  },
-  methods:{
-    selectType(type){
-      if(['-','+'].indexOf(type) === -1){
-        throw new Error('类型错误！')
-      }
-      this.types = type;
-    }
-  }
+<script lang="ts">
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
 
-};
+@Component
+export default class Type extends Vue {
+  types = '-';
+
+  selectType(types: string) {
+    if (['-', '+'].indexOf(types) === -1) {
+      throw new Error('类型不存在！');
+    }
+    this.types = types;
+
+  }
+}
+
 </script>
+
+<!--<script>-->
+<!--export default {-->
+<!--  name: 'Type',-->
+<!--  data: () => {-->
+<!--    return {-->
+<!--      types: '-'  // ’-‘ 支出 ’+‘ 收入-->
+<!--    };-->
+<!--  },-->
+<!--  props:['xxx'],-->
+<!--  mounted() {-->
+<!--    console.log(this.xxx);-->
+<!--  },-->
+<!--  methods:{-->
+<!--    selectType(type){-->
+<!--      if(['-','+'].indexOf(type) === -1){-->
+<!--        throw new Error('类型错误！')-->
+<!--      }-->
+<!--      this.types = type;-->
+<!--    }-->
+<!--  }-->
+
+<!--};-->
+<!--</script>-->
 
 <style lang="scss" scoped>
 .type {
