@@ -20,7 +20,7 @@ export default {
 </script>
 <style lang="scss">
 .layout-content {
-  border: 3px solid red;
+  //border: 3px solid red;
   display: flex;
   flex-direction: column;
 }

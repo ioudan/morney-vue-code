@@ -9,19 +9,28 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Type extends Vue {
   types = '-';
 
-  selectType(types: string) {
+  @Prop(Number) readonly xxx: number | undefined;
+  // @Prop({default: 'default value'}) propB: string | undefined;
+  // @Prop([String, Boolean]) propC: string | boolean | undefined;
+  // Prop告诉Vue xxx不是data而是prop
+  // Number告诉Vue xxx运行时是个Number
+  // xxx 属性名
+  // number | undefined 告诉TS xxx编译时类型
+
+  selectType(types: ('-' | '+')) {
     if (['-', '+'].indexOf(types) === -1) {
       throw new Error('类型不存在！');
     }
     this.types = types;
 
   }
+
 }
 
 </script>
