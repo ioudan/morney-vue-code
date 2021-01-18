@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-        {{ recordList }}}
+    {{ recordList }}
     <!--    {{ tags }}-->
     <!--    <Tags :dataSource.sync="tags" @xxx="yyy"/>-->
     <!--    <Tags :dataSource.sync="tags" v-on:xxx="yyy"/>-->
@@ -22,19 +22,13 @@ import Type from '@/components/Money/Type.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const model = require('@/model.js').default;
-// const model = require('@/model.js').model;
+// const model = require('@/model.ts').default;
+// const model = require('@/model.ts').model;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const {model} = require('@/model.js');
+// const {model} = require('@/model.js');
+import {model} from '@/model.ts';
+// console.log(model);
 
-console.log(model);
-type Record = {
-  tags: string[];
-  note: string;
-  type: ('-' | '+');
-  amount: string;
-  // created?: Date;
-}
 
 @Component({
   components: {NumberPad, Type, Note, Tags},
@@ -42,8 +36,8 @@ type Record = {
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
 
-  recordList: Record[] = model.fetch();
-  record: Record = {
+  recordList: RecordItem[] = model.fetch();
+  record: RecordItem = {
     tags: [], note: '', type: '-', amount: '0'
 
   };
@@ -67,18 +61,17 @@ export default class Money extends Vue {
   //   // console.log(value);
   // }
   onSubmitRecord() {
-    // this.record.created = new Date();
-    const recordDeepClone: Record = JSON.parse(JSON.stringify(this.record));
-    // recordDeepClone.created = new Date();
+    const recordDeepClone = model.clone(this.record);
+    recordDeepClone.created = new Date();
     this.recordList.push(recordDeepClone);
     // console.log(this.record);
     // console.log(this.recordList);
   }
 
   @Watch('recordList')
-  onRecordChanged(newRecord: Record) {
+  onRecordChanged(newRecord: RecordItem) {
     // window.localStorage.setItem('recordList', JSON.stringify(newRecord));
-    model.set(newRecord)
+    model.set(newRecord);
   }
 
 }
