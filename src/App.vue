@@ -15,6 +15,7 @@ body{
   line-height: 1.5;
   font-family: $font-hei;
   color: #333;
+  background: #f5f5f5;
 }
 .clearfix::after{
   content: '';

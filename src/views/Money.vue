@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    {{ recordList }}
+<!--    {{ recordList }}-->
     <!--    {{ tags }}-->
     <!--    <Tags :dataSource.sync="tags" @xxx="yyy"/>-->
     <!--    <Tags :dataSource.sync="tags" v-on:xxx="yyy"/>-->
@@ -81,5 +81,6 @@ export default class Money extends Vue {
   //border: 3px solid red;
   display: flex;
   flex-direction: column;
+  background: #fff;
 }
 </style>
