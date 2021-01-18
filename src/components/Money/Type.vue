@@ -9,19 +9,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Type extends Vue {
   types = '-';
-
-  @Prop(Number) readonly xxx: number | undefined;
-  // @Prop({default: 'default value'}) propB: string | undefined;
-  // @Prop([String, Boolean]) propC: string | boolean | undefined;
-  // Prop告诉Vue xxx不是data而是prop
-  // Number告诉Vue xxx运行时是个Number
-  // xxx 属性名
-  // number | undefined 告诉TS xxx编译时类型
 
   selectType(types: ('-' | '+')) {
     if (['-', '+'].indexOf(types) === -1) {
@@ -30,34 +22,9 @@ export default class Type extends Vue {
     this.types = types;
 
   }
-
 }
 
 </script>
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: 'Type',-->
-<!--  data: () => {-->
-<!--    return {-->
-<!--      types: '-'  // ’-‘ 支出 ’+‘ 收入-->
-<!--    };-->
-<!--  },-->
-<!--  props:['xxx'],-->
-<!--  mounted() {-->
-<!--    console.log(this.xxx);-->
-<!--  },-->
-<!--  methods:{-->
-<!--    selectType(type){-->
-<!--      if(['-','+'].indexOf(type) === -1){-->
-<!--        throw new Error('类型错误！')-->
-<!--      }-->
-<!--      this.types = type;-->
-<!--    }-->
-<!--  }-->
-
-<!--};-->
-<!--</script>-->
 
 <style lang="scss" scoped>
 .type {

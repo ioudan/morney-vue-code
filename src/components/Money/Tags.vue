@@ -1,21 +1,60 @@
 <template>
   <div class="tags">
     <ul class="tagList">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <!--      <li v-for="(tag,index) in dataSource" :key="index" @click="selected(tag)"-->
+      <!--          :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{ tag }}-->
+      <!--      </li>-->
+      <li v-for="(tag,index) in dataSource" :key="index" @click="toggle(tag)"
+          :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag }}
+      </li>
     </ul>
     <div class="tagAdd">
-      <button>新增标签</button>
+      <button @click="addTag">新增标签</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags'
-};
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+
+@Component
+  export default class Tags extends Vue {
+  @Prop(Array) readonly dataSource: string[] | undefined;
+  // @Prop({default: 'default value'}) propB: string | undefined;
+  // @Prop([String, Boolean]) propC: string | boolean | undefined;
+  // Prop告诉Vue xxx不是data而是prop
+  // Number告诉Vue xxx运行时是个Number
+  // xxx 属性名
+  // number | undefined 告诉TS xxx编译时类型
+  selectedTags: string[] = [];
+
+  toggle(tag: string) {
+    const tagIndex = this.selectedTags.indexOf(tag);
+    if (tagIndex >= 0) {
+      this.selectedTags.splice(tagIndex, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    // console.log(this.selectedTags.toString());
+  }
+
+  addTag() {
+    const tagName = window.prompt('请输入标签名！');
+    // if (tagName === '') {
+    if (tagName === '') {
+      window.alert('标签名不能为空！');
+    } else {
+      if (this.dataSource) {
+        // this.dataSource.push(tagName as string);
+        // this.dataSource.push(tagName);
+        // this.dataSource = [];
+        this.$emit("update:dataSource",[...this.dataSource,tagName])
+      }
+    }
+
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -37,13 +76,18 @@ export default {
     flex-wrap: wrap;
 
     > li {
-      background: #D9D9D9;
+      $li-bg: #D9D9D9;
+      background: $li-bg;
       border-radius: 18px;
       line-height: 22px;
       color: #484848;
       padding: 0 17px;
       margin-right: 24px;
       margin-top: 12px;
+
+      &.selected {
+        background: darken($li-bg, 20%);
+      }
     }
   }
 
