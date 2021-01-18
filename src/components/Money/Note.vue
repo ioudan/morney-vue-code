@@ -1,10 +1,10 @@
 <template>
   <div>
-<!--    {{notes}}-->
+    <!--    {{notes}}-->
     <label class="note">
       <span class="noteName">备注</span>
-<!--      <input type="text" :value="notes" @input="notes=$event.target.value" placeholder="在这里添加备注">-->
-<!--      <input type="text" :value="notes" @input="onChange" placeholder="在这里添加备注">-->
+      <!--      <input type="text" :value="notes" @input="notes=$event.target.value" placeholder="在这里添加备注">-->
+      <!--      <input type="text" :value="notes" @input="onChange" placeholder="在这里添加备注">-->
       <input type="text" v-model="notes" placeholder="在这里添加备注">
     </label>
   </div>
@@ -12,11 +12,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Note extends Vue {
-  notes = '';
+  @Prop(String) readonly value!: string;
+  notes = this.value;
+
+  @Watch('notes')
+  onChildChanged(value: string) {
+    this.$emit('update:value', value);
+  }
+
 //   onChange(e: KeyboardEvent) {
 //     const input = e.target as HTMLInputElement;
 //     console.log(input.value);

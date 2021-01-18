@@ -13,7 +13,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button class="ok">OK</button>
+      <button @click="ok" class="ok">OK</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -22,36 +22,49 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
-  output = '';
+  @Prop({default: '0'}) readonly value!: string;
+  output = this.value;
 
   // 没有点击事件，只有鼠标事件 MouseEvent(typescript, dom)
   // 键盘事件，UI事件，键盘事件等等
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement;
     const input = button.textContent;
-    if (input === '.') {
-      this.output || (this.output = '0');
-      if (this.output.indexOf('.') >= 0) {
+    if (input === null) return;
+
+    if (this.output === '0' && '1234567890'.indexOf(input) >= 0) {
+      this.output = input;
+    } else {
+      if (input === '.') {
+        this.output || (this.output = '0');
+        if (this.output.indexOf('.') >= 0) {
+          return;
+        }
+      }
+      if (input === '0' && !this.output) {
         return;
       }
-    }
-    if(input === '0' && !this.output){
-      return
-    }
 
-    this.output += input;
+      this.output += input;
+
+    }
   }
 
   remove() {
-    this.output = this.output.slice(0, -1);
+    this.output = this.output.slice(0, -1) || '0';
   }
 
   clear() {
-    this.output = '';
+    this.output = '0';
+  }
+
+
+  ok() {
+    this.$emit('update:value', this.output);
   }
 }
 </script>

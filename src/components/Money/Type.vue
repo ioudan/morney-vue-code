@@ -1,27 +1,28 @@
 <template>
   <div>
     <ul class="type">
-      <li :class="types === '-' && 'typeSelected' " @click="selectType('-')"><span>支出</span></li>
-      <li :class="types === '+' && 'typeSelected' " @click="selectType('+')"><span>收入</span></li>
+      <li :class="value === '-' && 'typeSelected' " @click="selectType('-')"><span>支出</span></li>
+      <li :class="value === '+' && 'typeSelected' " @click="selectType('+')"><span>收入</span></li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Type extends Vue {
-  types = '-';
+  // 默认值'-'，只有value的值为undefined时才有，为''时也不会用默认的
+  @Prop({default:'-'}) readonly value!: string;
 
   selectType(types: ('-' | '+')) {
     if (['-', '+'].indexOf(types) === -1) {
       throw new Error('类型不存在！');
     }
-    this.types = types;
-
+    this.$emit('update:value', types);
   }
+
 }
 
 </script>

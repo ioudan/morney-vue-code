@@ -19,15 +19,16 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
-  export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: string[] | undefined;
+export default class Tags extends Vue {
+  @Prop(Array) readonly dataSource!: string[];
+  @Prop(Array) readonly value!: string[];
   // @Prop({default: 'default value'}) propB: string | undefined;
   // @Prop([String, Boolean]) propC: string | boolean | undefined;
   // Prop告诉Vue xxx不是data而是prop
   // Number告诉Vue xxx运行时是个Number
   // xxx 属性名
   // number | undefined 告诉TS xxx编译时类型
-  selectedTags: string[] = [];
+  selectedTags: string[] = this.value;
 
   toggle(tag: string) {
     const tagIndex = this.selectedTags.indexOf(tag);
@@ -36,6 +37,8 @@ import {Component, Prop} from 'vue-property-decorator';
     } else {
       this.selectedTags.push(tag);
     }
+    // this.$emit('xxx', this.selectedTags)
+    this.$emit('update:value', this.selectedTags);
     // console.log(this.selectedTags.toString());
   }
 
@@ -49,10 +52,9 @@ import {Component, Prop} from 'vue-property-decorator';
         // this.dataSource.push(tagName as string);
         // this.dataSource.push(tagName);
         // this.dataSource = [];
-        this.$emit("update:dataSource",[...this.dataSource,tagName])
+        this.$emit('update:dataSource', [...this.dataSource, tagName]);
       }
     }
-
   }
 }
 </script>
