@@ -22,11 +22,11 @@ import Type from '@/components/Money/Type.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const model = require('@/model.ts').default;
-// const model = require('@/model.ts').model;
+// const model = require('@/recordListModel.ts').default;
+// const model = require('@/recordListModel.ts').model;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const {model} = require('@/model.js');
-import {model} from '@/model.ts';
+import {recordListModel} from '@/model/recordListModel';
 // console.log(model);
 
 
@@ -36,7 +36,7 @@ import {model} from '@/model.ts';
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
 
-  recordList: RecordItem[] = model.fetch();
+  recordList: RecordItem[] = recordListModel.fetch();
   record: RecordItem = {
     tags: [], note: '', type: '-', amount: '0'
 
@@ -61,7 +61,7 @@ export default class Money extends Vue {
   //   // console.log(value);
   // }
   onSubmitRecord() {
-    const recordDeepClone = model.clone(this.record);
+    const recordDeepClone = recordListModel.clone(this.record);
     recordDeepClone.created = new Date();
     this.recordList.push(recordDeepClone);
     // console.log(this.record);
@@ -71,7 +71,7 @@ export default class Money extends Vue {
   @Watch('recordList')
   onRecordChanged(newRecord: RecordItem) {
     // window.localStorage.setItem('recordList', JSON.stringify(newRecord));
-    model.set(newRecord);
+    recordListModel.set(newRecord);
   }
 
 }

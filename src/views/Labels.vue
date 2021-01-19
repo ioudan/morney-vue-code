@@ -3,26 +3,14 @@
     <Layout>
       <div>
         <ol class="tags">
-          <li>
-            <span>衣</span>
+          <li v-for="(label, index) in labelList" :key="index">
+            <span>{{label}}</span>
             <Icons name="icon-right"/>
           </li>
-          <li>
-            <span>食</span>
-            <Icons name="icon-right"/>
-          </li>
-          <li>
-            <span>住</span>
-            <Icons name="icon-right"/>
-          </li>
-          <li>
-            <span>行</span>
-            <Icons name="icon-right"/>
 
-          </li>
         </ol>
         <div class="createTagWrapper">
-          <button class="createTag">新建标签</button>
+          <button class="createTag" @click="createLabel">新建标签</button>
         </div>
       </div>
     </Layout>
@@ -30,9 +18,25 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Labels',
-};
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import {labelListModel} from '@/model/labelListModel';
+
+@Component
+export default class Labels extends Vue {
+  labelList = labelListModel.get();
+  createLabel(){
+    const tagName = window.prompt('请输入标签名')
+    if(tagName){
+      const res = labelListModel.set(tagName);
+      if(res === 0){
+        window.alert('标签名重复！')
+      }
+    }else{
+        window.alert('标签名已经存在！')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 
@@ -53,7 +57,8 @@ export default {
     padding-right: 16px;
     position: relative;
     box-shadow: inset 0px -0.5px 0px #BCBBC1;
-    > SVG{
+
+    > SVG {
       color: #333;
     }
   }
@@ -71,7 +76,8 @@ export default {
   border: none;
   padding: 9px 15px 9px 16px;
   margin-top: 44px;
-  &Wrapper{
+
+  &Wrapper {
     //border: 1px solid red;
     text-align: center;
   }
