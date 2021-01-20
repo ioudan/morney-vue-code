@@ -1,44 +1,39 @@
 <template>
   <div>
     <Layout>
-        <div class="labels">
-          <router-link class="label" v-for="label in labelList" :key="label.id" :to="`/labels/edit/${label.id}`">
-            <span>{{label.name}}</span>
-            <Icons name="icon-right"/>
-          </router-link>
+      <div class="labels">
+        <router-link class="label" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`">
+          <span>{{ tag.name }}</span>
+          <Icons name="icon-right"/>
+        </router-link>
 
-        </div>
-        <div class="createTagWrapper">
-<!--          <Button class="createTag" @click="createLabel">新建标签</Button>-->
-          <Button class="createTag" @click.native="createLabel">新建标签</Button>
-        </div>
+      </div>
+      <div class="createTagWrapper">
+        <!--          <Button class="createTag" @click="createLabel">新建标签</Button>-->
+        <Button class="createTag" @click.native="createTag">新建标签</Button>
+      </div>
     </Layout>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import {labelListModel} from '@/model/labelListModel';
 import Button from '@/components/Button.vue';
-labelListModel.fetch();
+import {mixins} from 'vue-class-component';
+import {TagHelper} from '@/mixins/TagHelper';
 
 @Component({
-  components: {Button}
+  components: {Button},
 })
-export default class Labels extends Vue {
-  labelList = labelListModel.data;
-  createLabel(){
-    const tagName = window.prompt('请输入标签名')
-    if(tagName){
-      const res = labelListModel.create(tagName);
-      if(res === 0){
-        window.alert('标签名重复！')
-      }
-    }else{
-        window.alert('标签名已经存在！')
-    }
+export default class Labels extends mixins(TagHelper) {
+  get tags() {
+    return this.$store.state.tagList;
   }
+
+  beforeCreate() {
+    this.$store.commit('fetchTags');
+  }
+
 }
 </script>
 <style lang="scss" scoped>

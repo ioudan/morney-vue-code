@@ -9,7 +9,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" placeholder="请输入标签名" :value="label.name" @update:value="update"/>
+      <FormItem field-name="标签名" placeholder="请输入标签名" :value="currentTag.name" @update:value="update"/>
     </div>
     <div class="createTagWrapper">
       <Button @click.native="remove">删除标签</Button>
@@ -20,44 +20,43 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import {labelListModel} from '@/model/labelListModel';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
 })
 export default class EditLabel extends Vue {
-  label?: Label = undefined;
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
 
   created() {
-    // console.log(this.$route.params.id);
+    this.$store.commit('fetchTags');
+
     const id = this.$route.params.id;
-    const labels = labelListModel.fetch();
-    const label = labels.filter(t => t.id === parseInt(id))[0];
-    if (label) {
-      this.label = label;
-    } else {
+    this.$store.commit('setCurrentTag', id);
+    if (!this.currentTag) {
       this.$router.replace('/404');
     }
   }
 
   update(name: string) {
-    if(this.label){
-      labelListModel.update(this.label.id, name);
-    }
-  }
-  remove(){
-    if(this.label){
-      if(labelListModel.remove(this.label.id)){
-        alert('删除成功！');
-        this.$router.push('/labels')
-      }else{
-        alert('删除失败！');
-      }
+    console.log(name);
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name});
+      alert('更新成功！');
     }
   }
 
+  remove() {
+    if (this.currentTag) {
+      this.$store.commit('removeTag', this.currentTag.id);
+      alert('删除成功！');
+      this.$router.push('/labels');
+
+    }
+  }
   // backLabels(){
   //   this.$router.back()
   // }

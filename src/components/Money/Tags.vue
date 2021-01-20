@@ -1,26 +1,31 @@
 <template>
   <div class="labels">
     <ul class="tagList">
-      <li v-for="(tag,index) in dataSource" :key="index" @click="toggle(tag)"
-          :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag.name }}
+      <li v-for="tag in tagList" :key="tag.id" @click="toggle(tag.name)"
+          :class="{selected:selectedTags.indexOf(tag.name)>=0}">{{ tag.name }}
       </li>
     </ul>
     <div class="tagAdd">
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
-import {labelListModel} from '@/model/labelListModel';
+import {Component} from 'vue-property-decorator';
+import {mixins} from 'vue-class-component';
+import {TagHelper} from '@/mixins/TagHelper';
 
 @Component
-export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource!: string[];
-  @Prop(Array) readonly value!: string[];
+export default class Tags extends mixins(TagHelper) {
   selectedTags: string[] = [];
+
+  get tagList(){
+    return this.$store.state.tagList;
+  }
+  created() {
+    this.$store.commit('fetchTags');
+  }
 
   toggle(tag: string) {
     const tagIndex = this.selectedTags.indexOf(tag);
@@ -32,17 +37,6 @@ export default class Tags extends Vue {
     this.$emit('update:value', this.selectedTags);
   }
 
-  create() {
-    const tagName = window.prompt('请输入标签名')
-    if(tagName){
-      const res = labelListModel.create(tagName);
-      if(res === 0){
-        window.alert('标签名重复！')
-      }
-    }else{
-      window.alert('标签名已经存在！')
-    }
-  }
 }
 </script>
 
