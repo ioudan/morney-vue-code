@@ -1,11 +1,11 @@
 <template>
-  <div class="tags">
+  <div class="labels">
     <ul class="tagList">
       <!--      <li v-for="(tag,index) in dataSource" :key="index" @click="selected(tag)"-->
       <!--          :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{ tag }}-->
       <!--      </li>-->
       <li v-for="(tag,index) in dataSource" :key="index" @click="toggle(tag)"
-          :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag }}
+          :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag.name }}
       </li>
     </ul>
     <div class="tagAdd">
@@ -60,8 +60,8 @@ export default class Tags extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.tags {
-  margin-left: 16px;
+.labels {
+  padding: 16px;
   font-size: 14px;
   display: flex;
   flex-direction: column;
@@ -69,6 +69,7 @@ export default class Tags extends Vue {
   justify-content: flex-end;
   flex-grow: 1;
   height: 10vh;
+  background: white;
 
   > .tagList {
     overflow: auto;
@@ -84,8 +85,8 @@ export default class Tags extends Vue {
       line-height: 22px;
       color: #484848;
       padding: 0 17px;
-      margin-right: 24px;
-      margin-top: 12px;
+      margin-right: 12px;
+      margin-top: 6px;
 
       &.selected {
         background: darken($li-bg, 20%);

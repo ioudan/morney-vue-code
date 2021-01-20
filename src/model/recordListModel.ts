@@ -1,15 +1,21 @@
-const recordListKey = 'recordList'
-const recordListModel = {
-    fetch() {
-        return JSON.parse(window.localStorage.getItem(recordListKey) || '[]');
-    },
-    set(newRecord: RecordItem) {
-        window.localStorage.setItem(recordListKey, JSON.stringify(newRecord));
-    },
-    clone(record: RecordItem){
-        return JSON.parse(JSON.stringify(record));
-    }
-}
+import clone from '@/lib/clone';
 
-// export default model
-export {recordListModel}
+const localStorageKeyName = 'recordList';
+const recordListModel = {
+  data:[] as RecordItem[],
+  create(record: RecordItem){
+    const recordDeepClone = clone(record);
+    recordDeepClone.created = new Date();
+    this.data.push(recordDeepClone);
+  },
+  fetch() {
+    this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
+    return this.data;
+  },
+  save() {
+    window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
+  },
+};
+
+// export default recordListModel
+export {recordListModel};

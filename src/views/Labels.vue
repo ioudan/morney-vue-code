@@ -1,18 +1,17 @@
 <template>
   <div>
     <Layout>
-      <div>
-        <ol class="tags">
-          <li v-for="(label, index) in labelList" :key="index">
-            <span>{{label}}</span>
+        <div class="labels">
+          <router-link class="label" v-for="label in labelList" :key="label.id" :to="`/labels/edit/${label.id}`">
+            <span>{{label.name}}</span>
             <Icons name="icon-right"/>
-          </li>
+          </router-link>
 
-        </ol>
-        <div class="createTagWrapper">
-          <button class="createTag" @click="createLabel">新建标签</button>
         </div>
-      </div>
+        <div class="createTagWrapper">
+<!--          <Button class="createTag" @click="createLabel">新建标签</Button>-->
+          <Button class="createTag" @click.native="createLabel">新建标签</Button>
+        </div>
     </Layout>
   </div>
 </template>
@@ -21,14 +20,16 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {labelListModel} from '@/model/labelListModel';
-
-@Component
+import Button from '@/components/Button.vue';
+@Component({
+  components: {Button}
+})
 export default class Labels extends Vue {
-  labelList = labelListModel.get();
+  labelList = labelListModel.fetch();
   createLabel(){
     const tagName = window.prompt('请输入标签名')
     if(tagName){
-      const res = labelListModel.set(tagName);
+      const res = labelListModel.create(tagName);
       if(res === 0){
         window.alert('标签名重复！')
       }
@@ -40,14 +41,14 @@ export default class Labels extends Vue {
 </script>
 <style lang="scss" scoped>
 
-.tags {
+.labels {
   //border: 1px solid red;
   background: #fff;
   font-size: 16px;
   color: #000;
   line-height: 16px;
 
-  > li {
+  > .label {
     //border-bottom: 1px solid grey;
     display: flex;
     justify-content: space-between;
@@ -62,25 +63,11 @@ export default class Labels extends Vue {
       color: #333;
     }
   }
-
 }
 
-.createTag {
-
-  font-size: 17px;
-  line-height: 22px;
-  letter-spacing: -0.41px;
-  color: #FFFFFF;
-  background: #767676;
-  border-radius: 4px;
-  border: none;
-  padding: 9px 15px 9px 16px;
-  margin-top: 44px;
-
-  &Wrapper {
-    //border: 1px solid red;
-    text-align: center;
-  }
+.createTagWrapper {
+  text-align: center;
+  margin-top: 16px;
 }
 
 

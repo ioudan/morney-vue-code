@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-<!--    {{ recordList }}-->
+    <!--    {{ recordList }}-->
     <!--    {{ tags }}-->
     <!--    <Tags :dataSource.sync="tags" @xxx="yyy"/>-->
     <!--    <Tags :dataSource.sync="tags" v-on:xxx="yyy"/>-->
@@ -8,16 +8,16 @@
     <!--    <Tags @update:value="onUpdateTags" :dataSource.sync="tags"/>-->
     <!--    <Type :value="record.type" @update:value="onUpdateType"/>-->
     <Tags :value.sync="record.tags" :dataSource.sync="tags"/>
-    <Note :value.sync="record.note"/>
+    <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.note"/>
     <Type :value.sync="record.type"/>
-    <NumberPad :value.sync="record.amount" @submitRecord="onSubmitRecord"/>
+    <NumberPad :value.sync="record.amount" @submitRecord="saveRecord"/>
   </Layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Tags from '@/components/Money/Tags.vue';
-import Note from '@/components/Money/Note.vue';
+import FormItem from '@/components/Money/FormItem.vue';
 import Type from '@/components/Money/Type.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
@@ -27,60 +27,44 @@ import {Component, Watch} from 'vue-property-decorator';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const {model} = require('@/model.js');
 import {recordListModel} from '@/model/recordListModel';
+import {labelListModel} from '@/model/labelListModel';
 // console.log(model);
-
+const recordList = recordListModel.fetch();
+const tagList = labelListModel.fetch();
 
 @Component({
-  components: {NumberPad, Type, Note, Tags},
+  components: {NumberPad, Type, FormItem, Tags},
 })
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行'];
-
-  recordList: RecordItem[] = recordListModel.fetch();
+  tags = tagList;
+  recordList = recordList;
   record: RecordItem = {
     tags: [], note: '', type: '-', amount: '0'
 
   };
-  // onUpdateTags(value: string[]) {
-  //   this.record.tags = value;
-  //   // console.log(value.toString());
-  // }
 
-  // onUpdateNote(value: string) {
-  //   this.record.note = value;
-  //   // console.log(value);
-  // }
+  onUpdateTags(value: string[]) {
+    this.record.tags = value;
+  }
 
-  // onUpdateType(value: ('-' | '+')) {
-  //   this.record.type = value;
-  //   // console.log(value);
-  // }
+  onUpdateNote(value: string) {
+    this.record.note = value;
+  }
 
-  // onUpdateNumberPad(value: string) {
-  //   this.record.amount = value;
-  //   // console.log(value);
-  // }
-  onSubmitRecord() {
-    const recordDeepClone = recordListModel.clone(this.record);
-    recordDeepClone.created = new Date();
-    this.recordList.push(recordDeepClone);
-    // console.log(this.record);
-    // console.log(this.recordList);
+  saveRecord() {
+    recordListModel.create(this.record);
   }
 
   @Watch('recordList')
-  onRecordChanged(newRecord: RecordItem) {
-    // window.localStorage.setItem('recordList', JSON.stringify(newRecord));
-    recordListModel.set(newRecord);
+  onRecordListChanged() {
+    recordListModel.save();
   }
 
 }
 </script>
 <style lang="scss">
 .layout-content {
-  //border: 3px solid red;
   display: flex;
   flex-direction: column;
-  background: #fff;
 }
 </style>

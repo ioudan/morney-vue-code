@@ -77,6 +77,7 @@ export default class NumberPad extends Vue {
 .numberPad {
   //border: 1px solid red;
   > .numberOutput {
+    background: #fff;
     @extend %clearFix;
     @extend %innerShadow;
     text-align: right;
