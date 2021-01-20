@@ -65,7 +65,7 @@ export default class NumberPad extends Vue {
 
   ok() {
     this.$emit('update:value', this.output);
-    this.$emit('submitRecord');
+    this.$emit('submit');
     this.output = '0';
   }
 }

@@ -1,15 +1,12 @@
 <template>
   <div class="labels">
     <ul class="tagList">
-      <!--      <li v-for="(tag,index) in dataSource" :key="index" @click="selected(tag)"-->
-      <!--          :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{ tag }}-->
-      <!--      </li>-->
       <li v-for="(tag,index) in dataSource" :key="index" @click="toggle(tag)"
           :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag.name }}
       </li>
     </ul>
     <div class="tagAdd">
-      <button @click="addTag">新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
   </div>
 </template>
@@ -17,18 +14,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import {labelListModel} from '@/model/labelListModel';
 
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly dataSource!: string[];
   @Prop(Array) readonly value!: string[];
-  // @Prop({default: 'default value'}) propB: string | undefined;
-  // @Prop([String, Boolean]) propC: string | boolean | undefined;
-  // Prop告诉Vue xxx不是data而是prop
-  // Number告诉Vue xxx运行时是个Number
-  // xxx 属性名
-  // number | undefined 告诉TS xxx编译时类型
-  selectedTags: string[] = this.value;
+  selectedTags: string[] = [];
 
   toggle(tag: string) {
     const tagIndex = this.selectedTags.indexOf(tag);
@@ -37,23 +29,18 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
-    // this.$emit('xxx', this.selectedTags)
     this.$emit('update:value', this.selectedTags);
-    // console.log(this.selectedTags.toString());
   }
 
-  addTag() {
-    const tagName = window.prompt('请输入标签名！');
-    // if (tagName === '') {
-    if (tagName === '') {
-      window.alert('标签名不能为空！');
-    } else {
-      if (this.dataSource) {
-        // this.dataSource.push(tagName as string);
-        // this.dataSource.push(tagName);
-        // this.dataSource = [];
-        this.$emit('update:dataSource', [...this.dataSource, tagName]);
+  create() {
+    const tagName = window.prompt('请输入标签名')
+    if(tagName){
+      const res = labelListModel.create(tagName);
+      if(res === 0){
+        window.alert('标签名重复！')
       }
+    }else{
+      window.alert('标签名已经存在！')
     }
   }
 }

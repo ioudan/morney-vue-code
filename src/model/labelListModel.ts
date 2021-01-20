@@ -5,6 +5,7 @@ const key = 'labelList';
 const labelListModel: LabelList = {
   data: [],
   fetch() {
+    // JSON.parse一次就等于重新clone一次
     this.data = JSON.parse(window.localStorage.getItem(key) || '[]');
     return this.data;
   },

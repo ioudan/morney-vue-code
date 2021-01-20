@@ -21,11 +21,13 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {labelListModel} from '@/model/labelListModel';
 import Button from '@/components/Button.vue';
+labelListModel.fetch();
+
 @Component({
   components: {Button}
 })
 export default class Labels extends Vue {
-  labelList = labelListModel.fetch();
+  labelList = labelListModel.data;
   createLabel(){
     const tagName = window.prompt('请输入标签名')
     if(tagName){
