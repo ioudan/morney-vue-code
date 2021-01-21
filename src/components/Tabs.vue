@@ -1,6 +1,10 @@
 <template>
-  <ul class="tabs">
-    <li v-for="item in dataSource" :key="item.value" @click="select(item)" :class="liClass(item)">{{ item.text }}</li>
+  <ul :class="{[classPrefix+'-tabs']: classPrefix,tabs:true}">
+    <li v-for="item in dataSource"
+        :key="item.value"
+        @click="select(item)"
+        :style="{height}"
+        :class="liClass(item)">{{ item.text }}</li>
   </ul>
 </template>
 
@@ -22,9 +26,10 @@ export default class Tabs extends Vue {
   // ?问号   的意思是 可能不是undefined
   // !感叹号 的意思是 绝对不可能是undefined
   @Prop(String) classPrefix?: string;
+  @Prop({type:String, default: '64px'}) height!: string;
 
   liClass(item: DataSourceItem) {
-    return {[this.classPrefix + '-tabs-item']: this.classPrefix, typeSelected: item.value === this.value};
+    return {[this.classPrefix + '-tabs-item']: this.classPrefix, typeSelected: item.value === this.value, tabsItem:true};
   }
 
   select(item: DataSourceItem) {
@@ -40,7 +45,7 @@ export default class Tabs extends Vue {
   display: flex;
   background: #c4c4c4;
 
-  > li {
+  &Item {
     width: 50%;
     font-size: 24px;
     line-height: 22px;
