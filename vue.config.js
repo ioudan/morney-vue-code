@@ -4,7 +4,11 @@ const path = require('path')
 function resolve(dir) {
     return path.join(__dirname, '.', dir)
 }
+
 module.exports = {
+    publicPath: process.env.NODE_ENV === 'production'
+        ? '/morney-vue/'
+        : '/',
     chainWebpack: config => {
         // 清除svg默认配置对./src/icons文件夹的处理
         config.module
