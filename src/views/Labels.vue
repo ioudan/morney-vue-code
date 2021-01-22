@@ -1,5 +1,4 @@
 <template>
-  <div>
     <Layout>
       <div class="labels">
         <router-link class="label" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`">
@@ -13,7 +12,6 @@
         <Button class="createTag" @click.native="createTag">新建标签</Button>
       </div>
     </Layout>
-  </div>
 </template>
 
 <script lang="ts">
