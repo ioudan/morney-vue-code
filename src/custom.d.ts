@@ -1,9 +1,18 @@
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  createRecordError: Error | null;
+  createTagError: Error | null;
+  currentTag?: Tag;
+}
 type RecordItem = {
-  tags: string[];
+  tags: Tag[];
   note: string;
   type: ('-' | '+');
   amount: string;
-  createdAt?: Date;
+  //由于json不支持Date类型，所以JSON.parse()时，createdBy的Date类型会被转成string；
+  // json只支持object、array、string、number、"true"、"false"、“null”
+  createdAt?: string;
 }
 type Tag = {
   id: number;
@@ -18,10 +27,5 @@ type TagList = {
   save: () => void;
 }
 
-interface Window {
-  labelList: Tag[];
-  labelFind: (id: string) => Tag | undefined;
-  labelCreate: (name: string) => number;
-  labelRemove: (id: number) => number;
-  labelUpdate: (id: number, name: string) => number;
-}
+// interface Window {
+// }

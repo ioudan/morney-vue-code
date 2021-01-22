@@ -26,7 +26,7 @@ export default class Tabs extends Vue {
   // ?问号   的意思是 可能不是undefined
   // !感叹号 的意思是 绝对不可能是undefined
   @Prop(String) classPrefix?: string;
-  @Prop({type:String, default: '64px'}) height!: string;
+  @Prop({type:String, default: ''}) height!: string;
 
   liClass(item: DataSourceItem) {
     return {[this.classPrefix + '-tabs-item']: this.classPrefix, typeSelected: item.value === this.value, tabsItem:true};

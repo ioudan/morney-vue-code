@@ -5,14 +5,11 @@ import createId from '@/lib/idCreator';
 
 Vue.use(Vuex); // 把 store 绑到 Vue.prototype.$store = store
 
-type RootState = {
-  recordList: RecordItem[];
-  tagList: Tag[];
-  currentTag?: Tag;
-}
 const store = new Vuex.Store({
   state: { // data
     recordList: [],
+    createRecordError: null,
+    createTagError: null,
     tagList: [],
     currentTag: undefined,
   } as RootState,
@@ -45,11 +42,12 @@ const store = new Vuex.Store({
       store.commit('saveTags');
     },
     fetchRecords(state) {
+      // JSON.parse返回一个any，等于是被强制断言了
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
     createRecord(state, record) {
       const record2: RecordItem = clone(record);
-      record2.createdAt = new Date();
+      record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
     },
@@ -59,17 +57,24 @@ const store = new Vuex.Store({
     fetchTags(state) {
       // JSON.parse一次就等于重新clone一次
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      if (!state.tagList || state.tagList.length === 0) {
+        store.commit('createTag', '衣');
+        store.commit('createTag', '食');
+        store.commit('createTag', '住');
+        store.commit('createTag', '行');
+      }
     },
     createTag(state, name: string) {
-
+      // 对Error初始化置空，怕会留到下次
+      state.createTagError = null;
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
-        return 0;
+        state.createTagError = new Error('tag name duplicated');
+        return;
       }
       const id = createId();
       state.tagList.push({id, name});
       store.commit('saveTags');
-      return 1;
     },
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));

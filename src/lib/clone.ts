@@ -1,4 +1,5 @@
-function clone(data: RecordItem|Tag) {
+// 传入一个X类型，就返回一个X类型;<X>声明这个X类型
+function clone<X>(data: X): X {
   return JSON.parse(JSON.stringify(data));
 }
 
