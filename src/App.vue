@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img v-show="isShow==='ok'" @click="isShow='none'" class="qrcode" src="/qrcode.png" alt="手机二维码预览">
+    <img v-show="isShow==='ok'" @click="isShow='none'" class="qrcode" src="@/assets/qrcode.png" alt="手机二维码预览">
     <router-view/>
   </div>
 </template>
