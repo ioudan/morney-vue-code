@@ -1,5 +1,5 @@
 <template>
-  <Layout class-prefix="layout">
+  <Layout class-prefix="layout" :style="{height:fixH+'px'}">
     <Tags :value.sync="record.tags"/>
     <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.note"/>
     <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
@@ -20,6 +20,8 @@ import recordTypeList from '@/constants/recordTypeList';
   components: {Tabs, NumberPad, FormItem, Tags},
 })
 export default class Money extends Vue {
+  fixH = document.documentElement.clientHeight;
+
   record: RecordItem = {
     tags: [], note: '', type: '-', amount: '0'
   };
@@ -27,7 +29,9 @@ export default class Money extends Vue {
   get recordList() {
     return this.$store.state.recordList;
   }
-  recordTypeList = recordTypeList
+
+  recordTypeList = recordTypeList;
+
   created() {
     this.$store.commit('fetchRecords');
   }

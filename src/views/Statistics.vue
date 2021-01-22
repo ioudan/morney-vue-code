@@ -97,10 +97,10 @@ export default class Statistics extends Vue {
 <style scoped lang="scss">
 ::v-deep {
   .type-tabs-item {
-    background: #C4C4C4;
+    background: white;
 
     &.typeSelected {
-      background: white;
+      background: #C4C4C4;
 
       &::after {
         display: none;
